@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://entities/paddle/Paddle.cs" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5, 75 )
+
+[node name="Paddle" type="KinematicBody2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+Size = Vector2( 10, 150 )
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Shape" type="Polygon2D" parent="."]
+polygon = PoolVector2Array( -5, -75, 5, -75, 5, 75, -5, 75 )
