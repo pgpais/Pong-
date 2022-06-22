@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://entities/ball/Ball.cs" type="Script" id=2]
+[ext_resource path="res://entities/ball/ball_phmat.tres" type="PhysicsMaterial" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Ball" type="RigidBody2D"]
+physics_material_override = ExtResource( 3 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.3, 0.3 )

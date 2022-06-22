@@ -32,3 +32,12 @@ position = Vector2( 515, 609 )
 shape = SubResource( 1 )
 
 [node name="Ball" parent="." instance=ExtResource( 2 )]
+position = Vector2( 459, 244 )
+mode = 2
+continuous_cd = 2
+contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+linear_damp = 0.0
+angular_damp = 0.0
+ForceIncreaseWithBounce = 30.0
