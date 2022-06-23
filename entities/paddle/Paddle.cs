@@ -13,23 +13,28 @@ public class Paddle : KinematicBody2D
     public Vector2 Size
     {
         get => size;
-        private set { size = value; SetObjectSize(size); }
+        private set { size = value; _resizer?.SetObjectSize(size); }
     }
-
-
     private Vector2 size = new Vector2(10, 10);
+
+    [Export]
+    public int PlayerNumber { get; private set; } = 1;
+
+
+
     Vector2 inputDirection;
 
     #region References
-    private CollisionShape2D _collider;
     private Polygon2D _shape;
+    private ResizeRectanglePolygonToCollider _resizer;
     #endregion
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        _collider = GetNode<CollisionShape2D>("Collider");
+        var _collider = GetNode<CollisionShape2D>("Collider");
         _shape = GetNode<Polygon2D>("Shape");
+        _resizer = new ResizeRectanglePolygonToCollider(_collider, _shape);
     }
 
     public override void _Process(float delta)
@@ -67,11 +72,11 @@ public class Paddle : KinematicBody2D
     {
         inputDirection = new Vector2();
 
-        if (Input.IsActionPressed("move_up"))
+        if (Input.IsActionPressed($"move_up-{PlayerNumber}"))
         {
             inputDirection.y -= 1;
         }
-        if (Input.IsActionPressed("move_down"))
+        if (Input.IsActionPressed($"move_down-{PlayerNumber}"))
         {
             inputDirection.y += 1;
         }
@@ -90,31 +95,18 @@ public class Paddle : KinematicBody2D
 
     }
 
-    private void SetObjectSize(Vector2 size)
-    {
-        if (_collider != null)
-        {
-            var colliderShape = _collider.Shape as RectangleShape2D;
-            colliderShape.Extents = new Vector2(size.x / 2, size.y / 2);
-        }
-
-        if (_shape != null)
-        {
-            var newPolygon = new Vector2[]
-            {
-            new Vector2(-size.x / 2, -size.y / 2),
-            new Vector2(size.x / 2, -size.y / 2),
-            new Vector2(size.x / 2, size.y / 2),
-            new Vector2(-size.x / 2, size.y / 2)
-            };
-
-
-            _shape.Polygon = newPolygon;
-        }
-    }
-
     private void EditorPhysicsProcess(float delta)
     {
 
     }
+
+    //Godot signal function called OnGameManagerPlayerColorSet
+    public void OnGameManagerPlayerColorSet(int playerNumber, Color color)
+    {
+        if (playerNumber == PlayerNumber)
+        {
+            _shape.Color = color;
+        }
+    }
+
 }
