@@ -34,4 +34,13 @@ public class Goal : Area2D
     //  {
     //
     //  }
+
+    public void OnGoalBodyEntered(Node body)
+    {
+        if (body is Ball)
+        {
+            var ball = body as Ball;
+            GD.Print($"Ball {ball.Name} scored!");
+        }
+    }
 }

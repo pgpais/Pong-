@@ -1,4 +1,5 @@
 using System;
+using Cheese.Players;
 using Godot;
 
 [Tool]
@@ -18,7 +19,7 @@ public class Paddle : KinematicBody2D
     private Vector2 size = new Vector2(10, 10);
 
     [Export]
-    public int PlayerNumber { get; private set; } = 1;
+    public PlayerNumber PlayerNumber { get; private set; }
 
 
 
@@ -28,6 +29,18 @@ public class Paddle : KinematicBody2D
     private Polygon2D _shape;
     private ResizeRectanglePolygonToCollider _resizer;
     #endregion
+
+    public Paddle()
+    {
+    }
+
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+        //TODO: move this dependency to the game manager. It should call a function to change this paddle's color
+        string signal = nameof(GameManager.PlayerColorSet);
+        GetParent().Connect(signal, this, nameof(OnGameManagerPlayerColorSet));
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -72,11 +85,11 @@ public class Paddle : KinematicBody2D
     {
         inputDirection = new Vector2();
 
-        if (Input.IsActionPressed($"move_up-{PlayerNumber}"))
+        if (Input.IsActionPressed($"move_up-{((int)PlayerNumber)}"))
         {
             inputDirection.y -= 1;
         }
-        if (Input.IsActionPressed($"move_down-{PlayerNumber}"))
+        if (Input.IsActionPressed($"move_down-{((int)PlayerNumber)}"))
         {
             inputDirection.y += 1;
         }
@@ -101,9 +114,9 @@ public class Paddle : KinematicBody2D
     }
 
     //Godot signal function called OnGameManagerPlayerColorSet
-    public void OnGameManagerPlayerColorSet(int playerNumber, Color color)
+    public void OnGameManagerPlayerColorSet(PlayerNumber playerNumber, Color color)
     {
-        if (playerNumber == PlayerNumber)
+        if (playerNumber == this.PlayerNumber)
         {
             _shape.Color = color;
         }
