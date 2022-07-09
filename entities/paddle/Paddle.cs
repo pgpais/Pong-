@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using Cheese.Players;
 using Godot;
 
 [Tool]
 public class Paddle : KinematicBody2D
 {
+    public static List<Paddle> Paddles = new List<Paddle>();
+
+
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
@@ -21,8 +25,6 @@ public class Paddle : KinematicBody2D
     [Export]
     public PlayerNumber PlayerNumber { get; private set; }
 
-
-
     Vector2 inputDirection;
 
     #region References
@@ -32,14 +34,7 @@ public class Paddle : KinematicBody2D
 
     public Paddle()
     {
-    }
-
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-        //TODO: move this dependency to the game manager. It should call a function to change this paddle's color
-        string signal = nameof(GameManager.PlayerColorSet);
-        GetParent().Connect(signal, this, nameof(OnGameManagerPlayerColorSet));
+        Paddles.Add(this);
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -113,13 +108,14 @@ public class Paddle : KinematicBody2D
 
     }
 
-    //Godot signal function called OnGameManagerPlayerColorSet
-    public void OnGameManagerPlayerColorSet(PlayerNumber playerNumber, Color color)
+    override public void _ExitTree()
     {
-        if (playerNumber == this.PlayerNumber)
-        {
-            _shape.Color = color;
-        }
+        base._ExitTree();
+        Paddles.Remove(this);
     }
 
+    internal void SetColor(Color color)
+    {
+        _shape.Color = color;
+    }
 }
