@@ -5,8 +5,8 @@ using Godot;
 public class ResizeRectanglePolygonToCollider
 {
     #region References
-    private CollisionShape2D _collider;
-    private Polygon2D _shape;
+    private readonly CollisionShape2D _collider;
+    private readonly Polygon2D _shape;
     #endregion
 
     public ResizeRectanglePolygonToCollider(CollisionShape2D collider, Polygon2D shape)
