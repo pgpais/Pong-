@@ -6,41 +6,45 @@ using Godot;
 
 public class GameManager : Node2D
 {
-	[Export]
-	public NodePath PaddleManagerPath { get; private set; }
+    [Export]
+    public NodePath PaddleManagerPath { get; private set; }
 
-	public List<Player> players = new List<Player>();
+    public List<Player> players = new List<Player>();
 
-	public GameManager()
-	{
+    public GameManager()
+    {
 
-	}
+    }
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		players = new Godot.Collections.Array<Player>(GetTree().GetNodesInGroup("player")).ToList();
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        SetupPlayerColors();
 
-		// Set color of player one
-		Color color1 = players.First((p) => p.PlayerNumber == PlayerNumber.One).PlayerColor;
-		// Set color of player two
-		Color color2 = players.First((p) => p.PlayerNumber == PlayerNumber.Two).PlayerColor;
+        SetupSignals();
+    }
 
-		if (PaddleManagerPath != null && !PaddleManagerPath.IsEmpty())
-		{
-			var paddleManager = GetNode<PaddleManager>(PaddleManagerPath);
-			paddleManager.SetPaddleColor(PlayerNumber.One, color1);
-			paddleManager.SetPaddleColor(PlayerNumber.Two, color2);
-		}
-		else
-		{
-			GD.PushWarning("PaddleManagerPath is empty, will not set color");
-		}
-	}
+    private void SetupPlayerColors()
+    {
+        players = new Godot.Collections.Array<Player>(GetTree().GetNodesInGroup("player")).ToList();
 
-	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-	//  public override void _Process(float delta)
-	//  {
-	//
-	//  }
+        Color colorPlayer1 = players.First((p) => p.PlayerNumber == PlayerNumber.One).PlayerColor;
+        Color colorPlayer2 = players.First((p) => p.PlayerNumber == PlayerNumber.Two).PlayerColor;
+
+        if (PaddleManagerPath != null && !PaddleManagerPath.IsEmpty())
+        {
+            var paddleManager = GetNode<PaddleManager>(PaddleManagerPath);
+            paddleManager.SetPaddleColor(PlayerNumber.One, colorPlayer1);
+            paddleManager.SetPaddleColor(PlayerNumber.Two, colorPlayer2);
+        }
+        else
+        {
+            GD.PushWarning("PaddleManagerPath is empty, will not set color");
+        }
+    }
+
+    private void SetupSignals()
+    {
+        throw new NotImplementedException();
+    }
 }
