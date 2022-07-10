@@ -7,7 +7,15 @@
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Ball" type="RigidBody2D"]
+mode = 2
 physics_material_override = ExtResource( 3 )
+gravity_scale = 0.0
+continuous_cd = 2
+contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+linear_damp = 0.0
+angular_damp = 0.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
