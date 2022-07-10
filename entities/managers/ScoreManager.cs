@@ -1,13 +1,32 @@
+using System;
 using Cheese.Players;
 using Godot;
 
 public class ScoreManager : Node
 {
+    public static ScoreManager Instance { get; private set; }
     public int[] Score { get; private set; } = { 0, 0 };
 
     public ScoreManager()
     {
-        Score = new int[] { 0, 0 };
+        if (Instance != null)
+        {
+            throw new Exception("ScoreManager is a singleton, cannot create more than one instance");
+        }
+        else
+        {
+            Score = new int[] { 0, 0 };
+        }
+    }
+
+    public void ConnectGoalSignal(Goal goal)
+    {
+        goal.Connect(nameof(Goal.GoalScored), this, nameof(OnGoal));
+    }
+
+    private void OnGoal(PlayerNumber playerNumber)
+    {
+        AddScore(playerNumber);
     }
 
     void AddScore(PlayerNumber playerNumber)
