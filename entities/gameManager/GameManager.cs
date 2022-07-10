@@ -16,17 +16,10 @@ public class GameManager : Node2D
     [Export]
     public PackedScene BallScene { get; private set; }
 
-
-
     public List<Player> players = new List<Player>();
 
     private Map map;
     private Ball ball;
-
-    public GameManager()
-    {
-
-    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

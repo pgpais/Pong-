@@ -16,11 +16,6 @@ public class Ball : RigidBody2D
     public override void _Ready()
     {
         base._Ready();
-
-        //TODO: Throw ball in random direction
-        //TODO: Make ball bounce off walls
-        //TODO: Make ball bounce off paddles
-        //TODO: Throw ball in direction of scored player
     }
 
     public void Launch()
