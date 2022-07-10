@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://entities/paddle/Paddle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/ball/Ball.tscn" type="PackedScene" id=2]
@@ -6,68 +6,14 @@
 [ext_resource path="res://entities/gameManager/GameManager.cs" type="Script" id=4]
 [ext_resource path="res://entities/player/Player.cs" type="Script" id=5]
 [ext_resource path="res://entities/managers/PaddleManager.cs" type="Script" id=6]
+[ext_resource path="res://entities/map/Map.cs" type="Script" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 515, 10 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
-PaddleManagerPath = NodePath("Paddles")
-
-[node name="Map" type="StaticBody2D" parent="."]
-visible = false
-
-[node name="TopWall" type="CollisionShape2D" parent="Map"]
-position = Vector2( 0, -310 )
-shape = SubResource( 1 )
-
-[node name="LeftWall" type="CollisionShape2D" parent="Map"]
-position = Vector2( -520, 0 )
-rotation = 1.5708
-shape = SubResource( 1 )
-
-[node name="RightWall" type="CollisionShape2D" parent="Map"]
-position = Vector2( 520, 0 )
-rotation = 1.5708
-shape = SubResource( 1 )
-
-[node name="BotWall" type="CollisionShape2D" parent="Map"]
-position = Vector2( 0, 310 )
-shape = SubResource( 1 )
-
-[node name="Ball" parent="." instance=ExtResource( 2 )]
-position = Vector2( -59, -54 )
-mode = 2
-continuous_cd = 2
-contacts_reported = 1
-contact_monitor = true
-can_sleep = false
-linear_damp = 0.0
-angular_damp = 0.0
-
-[node name="LeftGoal" parent="." instance=ExtResource( 3 )]
-position = Vector2( -505, 2 )
-scale = Vector2( 1, 3.08 )
-
-[node name="RightGoal" parent="." instance=ExtResource( 3 )]
-position = Vector2( 505, 2 )
-scale = Vector2( 1, 3.08 )
-PlayerNumber = 1
-
-[node name="Camera2D" type="Camera2D" parent="."]
-current = true
-
-[node name="Paddles" type="Node" parent="."]
-script = ExtResource( 6 )
-
-[node name="Paddle1" parent="Paddles" instance=ExtResource( 1 )]
-position = Vector2( -446, -92 )
-Size = Vector2( 10, 10 )
-
-[node name="Paddle2" parent="Paddles" instance=ExtResource( 1 )]
-position = Vector2( 439, -88 )
-Size = Vector2( 10, 10 )
-PlayerNumber = 1
+PaddleManagerPath = NodePath("Map/Paddles")
 
 [node name="Players" type="Node" parent="."]
 
@@ -79,3 +25,67 @@ PlayerColor = Color( 0, 0.568627, 0.741176, 1 )
 script = ExtResource( 5 )
 PlayerNumber = 1
 PlayerColor = Color( 0.756863, 0.392157, 0, 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+
+[node name="Map" type="Node2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="Walls" type="StaticBody2D" parent="Map"]
+visible = false
+
+[node name="TopWall" type="CollisionShape2D" parent="Map/Walls"]
+visible = false
+position = Vector2( 0, -310 )
+shape = SubResource( 1 )
+
+[node name="LeftWall" type="CollisionShape2D" parent="Map/Walls"]
+visible = false
+position = Vector2( -520, 0 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="RightWall" type="CollisionShape2D" parent="Map/Walls"]
+visible = false
+position = Vector2( 520, 0 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="BotWall" type="CollisionShape2D" parent="Map/Walls"]
+visible = false
+position = Vector2( 0, 310 )
+shape = SubResource( 1 )
+
+[node name="Paddles" type="Node" parent="Map"]
+script = ExtResource( 6 )
+
+[node name="Paddle1" parent="Map/Paddles" instance=ExtResource( 1 )]
+position = Vector2( -446, -92 )
+Size = Vector2( 10, 10 )
+
+[node name="Paddle2" parent="Map/Paddles" instance=ExtResource( 1 )]
+position = Vector2( 439, -88 )
+Size = Vector2( 10, 10 )
+PlayerNumber = 1
+
+[node name="BallPosition" type="Position2D" parent="Map"]
+
+[node name="Ball" parent="Map" instance=ExtResource( 2 )]
+position = Vector2( -59, -54 )
+mode = 2
+continuous_cd = 2
+contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+linear_damp = 0.0
+angular_damp = 0.0
+
+[node name="LeftGoal" parent="Map" instance=ExtResource( 3 )]
+position = Vector2( -505, 2 )
+scale = Vector2( 1, 3.08 )
+
+[node name="RightGoal" parent="Map" instance=ExtResource( 3 )]
+position = Vector2( 505, 2 )
+scale = Vector2( 1, 3.08 )
+PlayerNumber = 1
