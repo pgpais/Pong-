@@ -52,6 +52,7 @@ scale = Vector2( 1, 3.08 )
 [node name="RightGoal" parent="." instance=ExtResource( 3 )]
 position = Vector2( 505, 2 )
 scale = Vector2( 1, 3.08 )
+PlayerNumber = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
