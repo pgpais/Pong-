@@ -11,17 +11,23 @@ namespace Pong.Entities.Managers
     public class GameManager : Node2D
     {
         [Export]
-        public NodePath PaddleManagerPath { get; private set; }
-        [Export]
         public int GameStartCountdownTime { get; private set; } = 5;
         [Export]
         public float StartTextHoldTime { get; private set; } = 0.2f;
+        [Export]
+        public NodePath PaddleManagerPath { get; private set; }
+        [Export]
+        public NodePath ScoreManagerPath { get; private set; }
+        [Export]
+        public NodePath HUDPath { get; private set; }
         [Export]
         public PackedScene BallScene { get; private set; }
 
         public List<Player> players = new List<Player>();
 
         private Map map;
+        private ScoreManager scoreManager;
+        private HeadsUpDisplay hud;
         private Ball ball;
 
         // Called when the node enters the scene tree for the first time.
@@ -38,8 +44,9 @@ namespace Pong.Entities.Managers
 
         private void GetReferences()
         {
-
             map = new Array<Map>(GetTree().GetNodesInGroup("map")).First();
+            scoreManager = GetNode<ScoreManager>(ScoreManagerPath);
+            hud = GetNode<HeadsUpDisplay>(HUDPath);
         }
 
         private void SetupPlayerColors()
@@ -65,9 +72,11 @@ namespace Pong.Entities.Managers
         {
             Goal.Goals.ForEach((goal) =>
             {
-                ScoreManager.Instance.ConnectGoalSignal(goal);
+                scoreManager.ConnectGoalSignal(goal);
                 goal.Connect(nameof(Goal.GoalScored), this, nameof(OnGoalScored));
             });
+
+            hud.ConnectScoreSignal(scoreManager);
         }
 
         public async void StartGameCountdown()

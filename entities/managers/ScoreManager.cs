@@ -1,11 +1,15 @@
 using System;
 using Godot;
 using Pong.Entities;
+using Pong.Scripts.Helpers;
 
 namespace Pong.Entities.Managers
 {
     public class ScoreManager : Node
     {
+        [Signal]
+        public delegate void ScoreChanged(int[] score);
+
         public static ScoreManager Instance { get; private set; }
         public int[] Score { get; private set; } = { 0, 0 };
 
@@ -17,6 +21,7 @@ namespace Pong.Entities.Managers
             }
             else
             {
+                Instance = this;
                 Score = new int[] { 0, 0 };
             }
         }
@@ -28,12 +33,13 @@ namespace Pong.Entities.Managers
 
         private void OnGoal(PlayerNumber playerNumber)
         {
-            AddScore(playerNumber);
+            AddScore(playerNumber.Next());
         }
 
         void AddScore(PlayerNumber playerNumber)
         {
             Score[(int)playerNumber]++;
+            SetScore(Score);
         }
 
         void ResetScore()
@@ -44,6 +50,7 @@ namespace Pong.Entities.Managers
         void SetScore(int[] score)
         {
             Score = score;
+            EmitSignal(nameof(ScoreChanged), Score);
         }
     }
 }
