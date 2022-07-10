@@ -18,10 +18,14 @@ public class Ball : RigidBody2D
         base._Ready();
 
         //TODO: Throw ball in random direction
-        ApplyImpulse(Vector2.Zero, RandomHelper.RandomInsideUnitCircle() * StartForce);
         //TODO: Make ball bounce off walls
         //TODO: Make ball bounce off paddles
         //TODO: Throw ball in direction of scored player
+    }
+
+    public void Launch()
+    {
+        ApplyImpulse(Vector2.Zero, RandomHelper.RandomInsideUnitCircle() * StartForce);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
