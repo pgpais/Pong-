@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace Cheese.Players
+namespace Pong.Entities
 {
     public class Player : Node
     {

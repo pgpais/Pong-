@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-namespace Helpers
+namespace Pong.Scripts.Helpers
 {
 
     public static class RandomHelper

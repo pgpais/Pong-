@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cheese.Players;
 using Godot;
 using Godot.Collections;
+using Pong.Entities;
+using Pong.Scripts.Helpers;
 
-namespace Pong.entities.gameManager
+namespace Pong.Entities.Managers
 {
     public class GameManager : Node2D
     {
