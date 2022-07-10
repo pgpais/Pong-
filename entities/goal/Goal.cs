@@ -11,6 +11,7 @@ public class Goal : Area2D
     [Signal]
     public delegate void GoalScored(PlayerNumber goalAffected);
 
+    [Export]
     public PlayerNumber PlayerNumber { get; private set; }
 
     // Declare member variables here. Examples:
