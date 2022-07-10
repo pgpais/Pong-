@@ -66,6 +66,7 @@ namespace Pong.Entities.Managers
             Goal.Goals.ForEach((goal) =>
             {
                 ScoreManager.Instance.ConnectGoalSignal(goal);
+                goal.Connect(nameof(Goal.GoalScored), this, nameof(OnGoalScored));
             });
         }
 
@@ -92,8 +93,7 @@ namespace Pong.Entities.Managers
         private void SpawnBall()
         {
             ball = BallScene.Instance<Ball>();
-            ball.Name = "ball";
-            map.AddChild(ball);
+            map.CallDeferred("add_child", ball);
             ball.GlobalPosition = map.BallSpawnPosition.GlobalPosition;
             ball.GlobalRotation = map.BallSpawnPosition.GlobalRotation;
         }
@@ -112,7 +112,9 @@ namespace Pong.Entities.Managers
         private void OnGoalScored(PlayerNumber playerNumber)
         {
             GD.Print($"Goal scored by Player {playerNumber.Next()}");
-
+            DestroyBall();
+            SpawnBall();
+            StartGameCountdown();
         }
     }
 
