@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Cheese.Players;
 using Godot;
+using Godot.Collections;
 
 public class GameManager : Node2D
 {
     [Export]
     public NodePath PaddleManagerPath { get; private set; }
+    [Export]
+    public int GameStartCountdownTime { get; private set; } = 5;
+
+
 
     public List<Player> players = new List<Player>();
+
+    private Map map;
 
     public GameManager()
     {
@@ -19,9 +26,15 @@ public class GameManager : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GetReferences();
         SetupPlayerColors();
 
         SetupSignals();
+    }
+
+    private void GetReferences()
+    {
+        map = new Array<Map>(GetTree().GetNodesInGroup("Map")).First();
     }
 
     private void SetupPlayerColors()
@@ -54,5 +67,15 @@ public class GameManager : Node2D
     private void OnGoalScored(PlayerNumber playerNumber)
     {
         GD.Print($"Goal scored by Player {playerNumber.Next()}");
+    }
+
+    public async void StartGameCountdown()
+    {
+        int countdown = GameStartCountdownTime;
+        while (countdown > 0)
+        {
+            await
+            countdown--;
+        }
     }
 }

@@ -31,6 +31,7 @@ current = true
 
 [node name="Map" type="Node2D" parent="."]
 script = ExtResource( 7 )
+BallSpawnPath = NodePath("BallPosition")
 
 [node name="Walls" type="StaticBody2D" parent="Map"]
 visible = false
