@@ -73,11 +73,6 @@ public class GameManager : Node2D
         });
     }
 
-    private void OnGoalScored(PlayerNumber playerNumber)
-    {
-        GD.Print($"Goal scored by Player {playerNumber.Next()}");
-    }
-
     public async void StartGameCountdown()
     {
         int countdown = GameStartCountdownTime;
@@ -110,5 +105,17 @@ public class GameManager : Node2D
     public void LaunchBall()
     {
         ball.Launch();
+    }
+
+    public void DestroyBall()
+    {
+        ball.QueueFree();
+        ball = null;
+    }
+
+    private void OnGoalScored(PlayerNumber playerNumber)
+    {
+        GD.Print($"Goal scored by Player {playerNumber.Next()}");
+
     }
 }
