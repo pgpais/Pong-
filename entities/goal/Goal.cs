@@ -24,6 +24,8 @@ public class Goal : Area2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        Connect("body_entered", this, nameof(OnBodyEntered));
+
         var _collider = GetNode<CollisionShape2D>("Collider");
         var _shape = GetNode<Polygon2D>("Shape");
         _resizer = new ResizeRectanglePolygonToCollider(_collider, _shape);
@@ -35,7 +37,7 @@ public class Goal : Area2D
     //
     //  }
 
-    public void OnGoalBodyEntered(Node body)
+    public void OnBodyEntered(Node body)
     {
         if (body is Ball)
         {

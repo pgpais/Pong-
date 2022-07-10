@@ -20,5 +20,3 @@ shape = SubResource( 1 )
 position = Vector2( 0, 1 )
 color = Color( 0, 1, 0.929412, 0.443137 )
 polygon = PoolVector2Array( -10, -150, 10, -150, 10, 150, -10, 150 )
-
-[connection signal="body_entered" from="." to="." method="OnGoalBodyEntered"]
