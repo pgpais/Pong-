@@ -15,6 +15,7 @@ extents = Vector2( 515, 10 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
+GameStartCountdownTime = 1
 PaddleManagerPath = NodePath("Map/Paddles")
 ScoreManagerPath = NodePath("Managers/ScoreManager")
 HUDPath = NodePath("HUD")

@@ -39,7 +39,7 @@ namespace Pong.Entities.Managers
             SetupPlayerColors();
             SetupSignals();
 
-            StartGameCountdown();
+            StartGameCountdown(PlayerNumber.One);
         }
 
         private void GetReferences()
@@ -79,7 +79,7 @@ namespace Pong.Entities.Managers
             hud.ConnectScoreSignal(scoreManager);
         }
 
-        public async void StartGameCountdown()
+        public async void StartGameCountdown(PlayerNumber playerToLaunchTo)
         {
             int countdown = GameStartCountdownTime;
             while (countdown > 0)
@@ -91,12 +91,12 @@ namespace Pong.Entities.Managers
             GD.Print("Start!");
             await ToSignal(GetTree().CreateTimer(StartTextHoldTime), "timeout"); // show start for a bit
             GD.Print("Game started");
-            StartGame();
+            StartGame(playerToLaunchTo);
         }
 
-        private void StartGame()
+        private void StartGame(PlayerNumber playerToLaunchTo)
         {
-            LaunchBall();
+            LaunchBall(playerToLaunchTo);
         }
 
         private void SpawnBall()
@@ -107,9 +107,21 @@ namespace Pong.Entities.Managers
             ball.GlobalRotation = map.BallSpawnPosition.GlobalRotation;
         }
 
-        public void LaunchBall()
+        public void LaunchBall(PlayerNumber playerToLaunchTo)
         {
-            ball.Launch();
+            switch (playerToLaunchTo)
+            {
+                case PlayerNumber.One:
+                    // Launch ball towards player 1
+                    ball.LaunchToLeftSide();
+                    break;
+                case PlayerNumber.Two:
+                    // Launch ball towards player 2
+                    ball.LaunchToRightSide();
+                    break;
+                default:
+                    break;
+            }
         }
 
         public void DestroyBall()
@@ -123,7 +135,7 @@ namespace Pong.Entities.Managers
             GD.Print($"Goal scored by Player {playerNumber.Next()}");
             DestroyBall();
             SpawnBall();
-            StartGameCountdown();
+            StartGameCountdown(playerNumber);
         }
     }
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Resources/Fonts/Roboto-Medium.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Resources/fonts/Roboto-Medium.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI/HUD/HeadsUpDisplay.cs" type="Script" id=2]
 [ext_resource path="res://UI/HUD/ScoreHUD.cs" type="Script" id=3]
 

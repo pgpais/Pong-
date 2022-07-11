@@ -20,9 +20,26 @@ namespace Pong.Entities
             base._Ready();
         }
 
-        public void Launch()
+        public void Launch(Vector2 direction)
         {
-            ApplyImpulse(Vector2.Zero, RandomHelper.RandomInsideUnitCircle() * StartForce);
+            ApplyImpulse(Vector2.Zero, direction * StartForce);
+        }
+
+        public void LaunchToLeftSide()
+        {
+            var direction = RandomHelper.RandomVector2(225, 135);
+            Launch(direction);
+        }
+
+        public void LaunchToRightSide()
+        {
+            var direction = RandomHelper.RandomVector2(45, -45);
+            Launch(direction);
+        }
+
+        public void RandomLaunch()
+        {
+            Launch(RandomHelper.RandomInsideUnitCircle());
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.

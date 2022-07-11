@@ -19,5 +19,12 @@ namespace Pong.Scripts.Helpers
             }
             return result;
         }
+
+        public static Vector2 RandomVector2(float angleMaxDegrees, float angleMinDegrees)
+        {
+            float angleDiffRad = Mathf.Deg2Rad(angleMaxDegrees) - Mathf.Deg2Rad(angleMinDegrees);
+            float angleRad = (float)new Random().NextDouble() * angleDiffRad + angleMinDegrees;
+            return new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).Normalized();
+        }
     }
 }
