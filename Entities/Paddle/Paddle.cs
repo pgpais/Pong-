@@ -40,6 +40,16 @@ namespace Pong.Entities
             Paddles.Add(this);
         }
 
+        public float GetUpperBound()
+        {
+            return GlobalPosition.y - this.Size.y / 2;
+        }
+
+        public float GetLowerBound()
+        {
+            return GlobalPosition.y + this.Size.y / 2;
+        }
+
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {

@@ -57,42 +57,38 @@ namespace Pong.Entities
         {
             base._IntegrateForces(state);
 
+
             RotationDegrees = 0;
             if (state.GetContactCount() > 0)
             {
-                //TODO: gotta be the one coding the physics
                 if (state.GetContactColliderObject(0) is Paddle)
                 {
-                    Paddle paddle = state.GetContactColliderObject(0) as Paddle;
-                    HandlePaddleCollision(paddle, state.GetContactColliderPosition(0));
+                    var paddle = state.GetContactColliderObject(0) as Paddle;
+                    HandlePaddleCollision(state, paddle);
                 }
                 var vel = LinearVelocity;
-                GD.Print($"Current velocity: {vel}, mag:{vel.Length()} | Increasing velocity because of bounce!");
                 ApplyImpulse(Vector2.Zero, vel.Normalized() * ForceIncreaseWithBounce);
                 // LinearVelocity += LinearVelocity.Normalized() * ForceIncreaseWithBounce;
             }
         }
 
-        private void HandlePaddleCollision(Paddle paddle, Vector2 collisionPosition)
+        private void HandlePaddleCollision(Physics2DDirectBodyState state, Paddle paddle)
         {
-            bool isBallHigherThanPaddle = collisionPosition.y > paddle.GlobalPosition.y;
-            Vector2 ballLaunchDirection = paddle.Transform.x;
-            float velocity = LinearVelocity.Length();
-            StopMovement();
-            if (isBallHigherThanPaddle)
-            {
-                ballLaunchDirection = ballLaunchDirection.Rotated(Mathf.Pi / 4);
-            }
-            else
-            {
-                ballLaunchDirection = ballLaunchDirection.Rotated(-Mathf.Pi / 4);
-            }
-            LinearVelocity = ballLaunchDirection * velocity;
-        }
-
-        private void StopMovement()
-        {
+            float velocityLength = state.LinearVelocity.Length();
             LinearVelocity = Vector2.Zero;
+
+            float paddleUpperBound = paddle.GetUpperBound();
+            float paddleLowerBound = paddle.GetLowerBound();
+
+            float ballRatio = (GlobalPosition.y - paddleUpperBound) / (paddleLowerBound - paddleUpperBound);
+            ballRatio = Mathf.Clamp(ballRatio, 0, 1);
+
+            float angleInDegrees = RandomHelper.Interpolate(-45, 45, ballRatio);
+            var angleInRadians = Mathf.Deg2Rad(angleInDegrees);
+            var direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+
+            direction *= new Vector2(0, 1) + paddle.Transform.x;
+            LinearVelocity = direction * velocityLength;
         }
     }
 }

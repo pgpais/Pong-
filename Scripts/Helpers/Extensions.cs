@@ -13,5 +13,12 @@ namespace Pong.Scripts.Helpers
             int j = Array.IndexOf(Arr, src) + 1;
             return Arr.Length == j ? Arr[0] : Arr[j];
         }
+
+        public static double NextDouble(this Random random, double min, double max)
+        {
+            return random.NextDouble() * (max - min) + min;
+        }
+
+
     }
 }

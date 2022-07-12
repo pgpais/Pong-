@@ -26,5 +26,10 @@ namespace Pong.Scripts.Helpers
             float angleRad = (float)new Random().NextDouble() * angleDiffRad + angleMinDegrees;
             return new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad)).Normalized();
         }
+
+        public static float Interpolate(float start, float end, float t)
+        {
+            return start + (end - start) * t;
+        }
     }
 }
