@@ -80,6 +80,7 @@ Size = Vector2( 10, 10 )
 
 [node name="Paddle2" parent="Map/Paddles" instance=ExtResource( 1 )]
 position = Vector2( 439, -88 )
+rotation = 3.14159
 Size = Vector2( 10, 10 )
 PlayerNumber = 1
 

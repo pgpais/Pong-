@@ -60,11 +60,39 @@ namespace Pong.Entities
             RotationDegrees = 0;
             if (state.GetContactCount() > 0)
             {
+                //TODO: gotta be the one coding the physics
+                if (state.GetContactColliderObject(0) is Paddle)
+                {
+                    Paddle paddle = state.GetContactColliderObject(0) as Paddle;
+                    HandlePaddleCollision(paddle, state.GetContactColliderPosition(0));
+                }
                 var vel = LinearVelocity;
                 GD.Print($"Current velocity: {vel}, mag:{vel.Length()} | Increasing velocity because of bounce!");
                 ApplyImpulse(Vector2.Zero, vel.Normalized() * ForceIncreaseWithBounce);
                 // LinearVelocity += LinearVelocity.Normalized() * ForceIncreaseWithBounce;
             }
+        }
+
+        private void HandlePaddleCollision(Paddle paddle, Vector2 collisionPosition)
+        {
+            bool isBallHigherThanPaddle = collisionPosition.y > paddle.GlobalPosition.y;
+            Vector2 ballLaunchDirection = paddle.Transform.x;
+            float velocity = LinearVelocity.Length();
+            StopMovement();
+            if (isBallHigherThanPaddle)
+            {
+                ballLaunchDirection = ballLaunchDirection.Rotated(Mathf.Pi / 4);
+            }
+            else
+            {
+                ballLaunchDirection = ballLaunchDirection.Rotated(-Mathf.Pi / 4);
+            }
+            LinearVelocity = ballLaunchDirection * velocity;
+        }
+
+        private void StopMovement()
+        {
+            LinearVelocity = Vector2.Zero;
         }
     }
 }

@@ -82,7 +82,7 @@ namespace Pong.Entities
         private void HandleInput()
         {
             inputDirection = new Vector2();
-            
+
 
             if (Input.IsActionPressed($"move_up-{(int)PlayerNumber}"))
             {
@@ -99,6 +99,11 @@ namespace Pong.Entities
         private void GamePhysicsProcess(float delta)
         {
             MoveAndSlide(inputDirection * Speed);
+        }
+
+        private void HandleBallCollision(Ball ball, KinematicCollision2D collision)
+        {
+
         }
 
         private void EditorProcess(float delta)
