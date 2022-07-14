@@ -64,7 +64,7 @@ namespace Pong.Entities
                 if (state.GetContactColliderObject(0) is Paddle)
                 {
                     var paddle = state.GetContactColliderObject(0) as Paddle;
-                    HandlePaddleCollision(state, paddle);
+                    HandlePaddleCollision(state, paddle, state.GetContactColliderPosition(0));
                 }
                 var vel = LinearVelocity;
                 ApplyImpulse(Vector2.Zero, vel.Normalized() * ForceIncreaseWithBounce);
@@ -72,7 +72,7 @@ namespace Pong.Entities
             }
         }
 
-        private void HandlePaddleCollision(Physics2DDirectBodyState state, Paddle paddle)
+        private void HandlePaddleCollision(Physics2DDirectBodyState state, Paddle paddle, Vector2 contactPos)
         {
             float velocityLength = state.LinearVelocity.Length();
             LinearVelocity = Vector2.Zero;
@@ -80,7 +80,7 @@ namespace Pong.Entities
             float paddleUpperBound = paddle.GetUpperBound();
             float paddleLowerBound = paddle.GetLowerBound();
 
-            float ballRatio = (GlobalPosition.y - paddleUpperBound) / (paddleLowerBound - paddleUpperBound);
+            float ballRatio = (contactPos.y - paddleUpperBound) / (paddleLowerBound - paddleUpperBound);
             ballRatio = Mathf.Clamp(ballRatio, 0, 1);
 
             float angleInDegrees = RandomHelper.Interpolate(-45, 45, ballRatio);
