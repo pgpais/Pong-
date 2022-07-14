@@ -16,6 +16,7 @@ anchor_bottom = 1.0
 script = ExtResource( 3 )
 GameScene = ExtResource( 5 )
 PlayButtonNodePath = NodePath("Menu/CenterRow/Buttons/Play Game")
+QuitButtonNodePath = NodePath("Menu/CenterRow/Buttons/Quit")
 FadeInNodePath = NodePath("FadeIn")
 
 [node name="Menu" type="VBoxContainer" parent="."]
@@ -43,6 +44,7 @@ alignment = 1
 margin_left = 252.0
 margin_right = 612.0
 margin_bottom = 400.0
+focus_neighbour_bottom = NodePath("Options")
 size_flags_horizontal = 4
 size_flags_vertical = 3
 custom_constants/separation = 20
@@ -52,6 +54,7 @@ alignment = 1
 margin_top = 90.0
 margin_right = 360.0
 margin_bottom = 150.0
+focus_neighbour_bottom = NodePath("../Options")
 expand_icon = true
 
 [node name="Label" parent="Menu/CenterRow/Buttons/Play Game" index="0"]
@@ -61,6 +64,9 @@ text = "Play"
 margin_top = 170.0
 margin_right = 360.0
 margin_bottom = 230.0
+focus_neighbour_top = NodePath("../Play Game")
+focus_neighbour_bottom = NodePath("../Quit")
+focus_mode = 1
 
 [node name="Label" parent="Menu/CenterRow/Buttons/Options" index="0"]
 text = "Options"
@@ -69,6 +75,8 @@ text = "Options"
 margin_top = 250.0
 margin_right = 360.0
 margin_bottom = 310.0
+focus_neighbour_top = NodePath("../Options")
+focus_mode = 1
 
 [node name="Label" parent="Menu/CenterRow/Buttons/Quit" index="0"]
 text = "Quit"
